@@ -5,11 +5,10 @@
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <link rel="stylesheet" href="base.css">
   </head>
-
+  
   <body>
     <div class="container">
       <h class="title">最強の三目並べAI</h>
-      <h3 class="human-player">あなた：X,AI：O</h3>
       <div class="grid">
         <div class="cell">
           <span id="pos-0-x" class="batu hidden">X</span>
@@ -57,11 +56,11 @@
           <button id="pos-8-button"  pys-onclick="lambda e: cell_click(8)"></button>
         </div>
       </div>
-
+      
       <h3 id="message"></h3>
       <button id="reset-button" class="hidden" pys-onclick="lambda e: reset()">もう一度</button>
     </div>
-
+    
 <py-script>
 MARKS = {0: 'X', 1: 'O'}
 
@@ -108,7 +107,7 @@ class Board:
     def unmove(self, idx):
         self.counter -= 1
         self.state[idx] = None
-
+    
     def is_win(self, player):
         s = self.state
         if(
@@ -161,7 +160,7 @@ def minimax(board, player):
                 max_score = score
                 max_idx = idx
             board.unmove(idx)
-
+        
         return (max_score, max_idx)
     else:
         min_score = float('inf')
@@ -174,14 +173,14 @@ def minimax(board, player):
                 min_score = score
                 min_idx = idx
             board.unmove(idx)
-
+        
         return (min_score, min_idx)
-
-
+        
+        
 class BestPlayer:
     def __init__(self, player):
         self.player = player
-
+    
     def play(self, board):
         score, idx = minimax(board, self.player)
         board.move(idx)
@@ -219,7 +218,7 @@ class GameManager:
             display_message("あなたの勝ち🎉")
             self.game_running = False
             Element("reset-button").remove_class("hidden")
-            return
+            return 
         elif self.board.is_end():
             display_message("引き分け")
             self.game_running = False
@@ -234,8 +233,8 @@ class GameManager:
         if self.board.is_win(1):
             display_message("AIの勝ち😞")
             self.game_running = False
-            Element("reset-button").remove_class("hidden")
-            return
+            Element("reset-button").remove_class("hidden")  
+            return 
 
         display_message("あなたの番です")
 
@@ -244,7 +243,7 @@ game_manager = GameManager()
 
 def reset():
     game_manager.start()
-
+  
 def cell_click(idx):
     game_manager.human_play(idx)
 
